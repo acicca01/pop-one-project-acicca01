@@ -7,7 +7,8 @@ def read_cities(file_name):
 
     Use this as your initial `road_map`, that is, the cycle 
 
-      Alabama -> Alaska -> Arizona -> ... -> Wyoming -> Alabama. """ pass
+      Alabama -> Alaska -> Arizona -> ... -> Wyoming -> Alabama. """ 
+    pass
 
 def print_cities(road_map):
     """
@@ -22,7 +23,7 @@ def compute_total_distance(road_map):
     the connections in the `road_map`. Remember that it's a cycle, so that 
     (for example) in the initial `road_map`, Wyoming connects to Alabama...
     """
-  return 5.6
+    return 5.6
 
 def swap_cities(road_map, index1, index2):
     """
