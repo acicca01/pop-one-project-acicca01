@@ -25,6 +25,7 @@ def test_swap_cities():
 
 
 def test_shift_cities():
-    '''add your tests'''
-
+    road_map1 = []
+    assert shift_cities(road_map1) == []
+    
 
