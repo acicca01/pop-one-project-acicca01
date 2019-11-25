@@ -24,8 +24,14 @@ def test_swap_cities():
 
 
 
-def test_shift_cities():
+def test_shift_cities1():
     road_map1 = []
     assert shift_cities(road_map1) == []
-    
+
+def test_shift_cities2():
+    road_map1 = [("Pennsylvania", "Philly",29.333,-99),\
+                 (("New York State","NYC",30.983,-98))]
+    road_map1[0] , road_map1[1] = road_map1[1] , road_map1[0]             
+    assert shift_cities(road_map1) == road_map1 
+
 

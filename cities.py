@@ -45,8 +45,7 @@ def shift_cities(road_map):
     to the position i+1. The city at the last position moves to the position
     0. Return the new road map. 
     """
-    l=[]
-    return l
+    return road_map
 
 def find_best_cycle(road_map):
     """
