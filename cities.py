@@ -1,4 +1,9 @@
 def read_cities(file_name):
+    raw_map = open(file_name)
+    location = raw_map.readline()
+    print (location)
+    location = raw_map.readline()
+    print (location)
     """
     Read in the cities from the given `file_name`, and return 
     them as a list of four-tuples: 
@@ -55,7 +60,6 @@ def find_best_cycle(road_map):
     Use randomly generated indices for swapping.
     """
     pass
-
 def print_map(road_map):
     """
     Prints, in an easily understandable format, the cities and 
@@ -65,11 +69,12 @@ def print_map(road_map):
     pass
 
 def main():
+    read_cities("city-data.txt") 
     """
     Reads in, and prints out, the city data, then creates the "best"
     cycle and prints it out.
     """
-    pass
+    pass 
 
 if __name__ == "__main__": #keep this in
     main()
