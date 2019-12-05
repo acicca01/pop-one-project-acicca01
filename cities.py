@@ -1,9 +1,12 @@
 def read_cities(file_name):
     raw_map = open(file_name)
     location = raw_map.readline()
-    print (location)
-    location = raw_map.readline()
-    print (location)
+    test_map = []
+    while location != '"':
+        test_map.append(tuple((geo for geo in location.split('\n') )))
+        location.readline()
+
+    print (test_map)
     """
     Read in the cities from the given `file_name`, and return 
     them as a list of four-tuples: 
