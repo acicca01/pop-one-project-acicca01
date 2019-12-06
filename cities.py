@@ -1,12 +1,17 @@
 def read_cities(file_name):
-    raw_map = open(file_name)
-    location = raw_map.readline()
-    test_map = []
-    while location != '"':
-        test_map.append(tuple((geo for geo in location.split('\n') )))
-        location.readline()
-
-    print (test_map)
+    amap=[]
+    #importing a map in a list
+    with open(file_name) as input_file:
+      amap=input_file.readlines()
+    #converting amap location elements to tuples 
+    for location_index in range (len(amap)):
+      #to string 
+      amap[location_index] = amap[location_index].rstrip('\n')
+      amap[location_index] = amap[location_index].split('\t') 
+      #to float
+      amap[location_index][2] = float(amap[location_index][2])
+      amap[location_index][3] = float(amap[location_index][3])
+      amap[location_index] = tuple(amap[location_index])
     """
     Read in the cities from the given `file_name`, and return 
     them as a list of four-tuples: 
