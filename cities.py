@@ -1,5 +1,5 @@
 def read_cities(file_name):
-    '''This Function reads the cities from the given file_name. '''
+    '''This Function reads the cities from the given file_name.     '''
     amap=[]
     #importing a map in a list
     with open(file_name) as input_file:
