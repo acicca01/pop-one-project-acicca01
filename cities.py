@@ -1,4 +1,4 @@
-def read_cities(file_name):
+def read_cities(file_name,rounding=100):
     '''This Function reads the cities from the given file_name.     '''
     amap=[]
     #importing a map in a list
@@ -10,8 +10,8 @@ def read_cities(file_name):
       amap[location_index] = amap[location_index].rstrip('\n')
       amap[location_index] = amap[location_index].split('\t') 
       #to float
-      amap[location_index][2] = float(amap[location_index][2])
-      amap[location_index][3] = float(amap[location_index][3])
+      amap[location_index][2] = round(float(amap[location_index][2]),rounding)
+      amap[location_index][3] = round(float(amap[location_index][3]),rounding)
       amap[location_index] = tuple(amap[location_index])
     return amap      
     """
@@ -31,7 +31,7 @@ def print_cities(road_map):
     for i in range(len(road_map)):
       for j in range(4):
         print(road_map[i][j], end = "\t" )
-      print("=====",end = '\n')
+      print("",end = '\n')
     """
     Prints a list of cities, along with their locations. 
     Print only one or two digits after the decimal point.
@@ -85,7 +85,7 @@ def print_map(road_map):
     pass
 
 def main():
-    print_cities(read_cities("city-data.txt")) 
+    print_cities(read_cities('city-data.txt',2)) 
     """
     Reads in, and prints out, the city data, then creates the "best"
     cycle and prints it out.

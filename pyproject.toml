@@ -6,7 +6,6 @@ authors = ["Antonello  Ciccarone <acicca01@dcs.bbk.ac.uk>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pytest = "^5.3"
 
 [tool.poetry.dev-dependencies]
 
