@@ -1,3 +1,5 @@
+from math import *
+
 def read_cities(file_name,rounding=100):
     '''This Function reads the cities from the given file_name.     '''
     amap=[]
@@ -77,16 +79,34 @@ def find_best_cycle(road_map):
     """
     pass
 def print_map(road_map):
+    # TODO add parameter for matrix cost
+    # TODO Use F-strigs from Lecture Slide
     """
     Prints, in an easily understandable format, the cities and 
     their connections, along with the cost for each connection 
     and the total cost.
     """
-    pass
+    
+    padding = abs (len(road_map[1][1]+road_map[1][0]) - len(road_map[0][1]+road_map[0][0]) ) -2
+    
+    L = len(road_map)
+    for i in range(len(road_map)):
+      repeat = min(len(road_map[i%L][1] ) , len(road_map[(i+1)%L][1] )) 
+      #padding = - len(road_map[(i+1)%L][1]+road_map[(i+1)%L][0]) + len(road_map[i%L][1]+road_map[i%L][0]) ) 
+      if i == 0:
+        print(road_map[i%L][1], '('+road_map[i%L][0]+')' ,sep = ' ') 
+      print()
+      print (repeat*"↓" , "cost = " , 10)
+      print()
+      print(road_map[(i+1)%L][1], '('+road_map[(i+1)%L][0]+')' , sep = ' ' )
+    print("cost = " , 1000)  
+    
 
 def main():
-    print_cities(read_cities('city-data.txt',2)) 
-    """
+    # TODO check number of connection == len(map)
+    #print_cities(read_cities('city-data.txt',2)) 
+    print_map(read_cities('city-data.txt'))
+    """ 
     Reads in, and prints out, the city data, then creates the "best"
     cycle and prints it out.
     """
