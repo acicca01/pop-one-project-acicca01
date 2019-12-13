@@ -46,7 +46,10 @@ def compute_total_distance(road_map):
     the connections in the `road_map`. Remember that it's a cycle, so that 
     (for example) in the initial `road_map`, Wyoming connects to Alabama...
     """
-    return 5.6
+    L = len(road_map)
+    for i in range(L):
+        tot = sqrt((road_map[(i+1)%L][2] - road_map[i%L][2])**2)
+    return tot
 
 def swap_cities(road_map, index1, index2):
     """
@@ -80,7 +83,7 @@ def find_best_cycle(road_map):
     pass
 def print_map(road_map):
     # TODO add parameter for matrix cost
-    # TODO Use F-strigs from Lecture Slide
+    # TODO Use F-strings from Lecture Slide
     """
     Prints, in an easily understandable format, the cities and 
     their connections, along with the cost for each connection 
@@ -104,6 +107,7 @@ def print_map(road_map):
 
 def main():
     # TODO check number of connection == len(map)
+    # TODO prompt for input file functionality
     #print_cities(read_cities('city-data.txt',2)) 
     print_map(read_cities('city-data.txt'))
     """ 
