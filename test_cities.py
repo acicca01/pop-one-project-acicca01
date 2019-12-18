@@ -6,13 +6,20 @@ class Test_compute_total_distance:
         road_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
                     ("Delaware", "Dover", 39.161921, -75.526755),\
                     ("Minnesota", "Saint Paul", 44.95, -93.094)]
-        assert compute_total_distance(road_map)==pytest.approx(9.386+18.496+10.646)
+        assert compute_total_distance(road_map)==pytest.approx(9.386+18.496+10.646,0.001)
 
     def test_two(self):
-        road_map1 = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
-                    ("Delaware", "Dover", 39.161921, -75.526755),\
-                    ("Minnesota", "Saint Paul", 44.95, -93.094)]
-        assert compute_total_distance(road_map1)==pytest.approx(5.3)
+        road_map = [("A", "City", 1, 0),\
+                    ("A", "City", 1, 0),\
+                    ("A", "City", 1, 0)]
+        assert compute_total_distance(road_map)==pytest.approx(0)
+
+    def test_three(self):
+        road_map = [("Zero", "Zero", 0, 0),\
+                    ("Zero", "Zero", 0, 0),\
+                    ("Something", "Zero", 4, 0)]
+        assert compute_total_distance(road_map)==pytest.approx(8)
+
 '''
 def test_swap_cities():
     road_map1 = [("Kentucky", "Frankfort", 38.197274, -84.86311),\

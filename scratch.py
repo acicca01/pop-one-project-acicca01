@@ -1,5 +1,3 @@
-f=[]
-with open("city-data.txt") as ff:
-...     f=ff.readlines()
+st = [1,2,3,4]
 
 
