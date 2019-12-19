@@ -2,6 +2,7 @@ import pytest
 from cities import *
 
 class Test_compute_total_distance:
+    # TODO 2 cities on the list located in same place
     def test_one(self):
         road_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
                     ("Delaware", "Dover", 39.161921, -75.526755),\
@@ -23,7 +24,7 @@ class Test_compute_total_distance:
         assert compute_total_distance(road_map)==pytest.approx(53.61067,0.001)
     def test_five(self):
         road_map = read_cities('city-data.txt')
-        assert compute_total_distance(road_map)==pytest.approx(27131.83,0.001)
+        assert compute_total_distance(road_map)==pytest.approx(1060.171,0.001)
 
 '''
 def test_swap_cities():

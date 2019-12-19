@@ -1,6 +1,7 @@
 from math import *
-
+# TODO create all-combo distances Matrix
 def read_cities(file_name,rounding=100):
+    # TODO cover file not found error in read_cities()
     '''This Function reads the cities from the given file_name.     '''
     amap=[]
     #importing a map in a list
@@ -27,10 +28,13 @@ def print_cities(road_map):
 
 def compute_total_distance(road_map):
     L = len(road_map)
-    assert (L > 2), "This code will run on a map with at least 3 cities."
+    assert (L > 1), "Compute distance will run on a map with at least 2 cities."
     tot = 0
-    for i in range(L):
-        tot += sqrt((road_map[(i+1)%L][2] - road_map[i%L][2])**2+(road_map[(i+1)%L][3] - road_map[i%L][3])**2)
+    if L == 2:
+        tot = sqrt((road_map[1][2] - road_map[0][2])**2+(road_map[(1)%L][3] - road_map[0][3])**2)
+    else:
+        for i in range(L):
+            tot += sqrt((road_map[(i+1)%L][2] - road_map[i%L][2])**2+(road_map[(i+1)%L][3] - road_map[i%L][3])**2)
     ''' dist1 = sqrt((road_map[1][2] - road_map[0][2])**2+(road_map[1][3] - road_map[0][3])**2)
         dist2 = sqrt((road_map[2][2] - road_map[1][2])**2+(road_map[2][3] - road_map[1][3])**2)
         dist3 = sqrt((road_map[0][2] - road_map[2][2])**2+(road_map[0][3] - road_map[2][3])**2)'''
