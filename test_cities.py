@@ -32,8 +32,8 @@ class Test_swap_cities:
                      ("Delaware", "Dover", 39.161921, -75.526755),\
                      ("Minnesota", "Saint Paul", 44.95, -93.094)]
         assert swap_cities(road_map1,1,3)[0]==[("Minnesota", "Saint Paul", 44.95 , -93.094),\
-                                            ("Delaware", "Dover", 39.161921, -75.526755),\
-                                            ("Kentucky", "Frankfort", 38.197274, -84.86311)]
+                                               ("Delaware", "Dover", 39.161921, -75.526755),\
+                                               ("Kentucky", "Frankfort", 38.197274, -84.86311)]
     def test_two(self):
         road_map1 = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
                      ("Delaware", "Dover", 39.161921, -75.526755),\
@@ -51,18 +51,51 @@ class Test_swap_cities:
     def test_four(self):
         test_map = read_cities('city-data.txt')
         swap_map = read_cities('city-sub.txt')
-        assert swap_cities(test_map,1,32)[0] == swap_map
-        assert swap_cities(test_map,1,32)[1] == pytest.approx(1065.63)
+        assert swap_cities(test_map,0,31)[0] == swap_map
+        assert swap_cities(test_map,0,31)[1] == pytest.approx(1065.63,0.001)
+    def test_five(self):
+        test_map = read_cities('city-data.txt')
+        swap_map = read_cities('city-sub.txt')
+        my_swap = swap_cities(test_map,0,31)
+        assert my_swap[0] == swap_map
+        assert my_swap[1] == pytest.approx(1065.63,0.001)
+    def test_six(self):
+        test_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
+                    ("Delaware", "Dover", 39.161921, -75.526755),\
+                    ("Minnesota", "Saint Paul", 44.95, -93.094)]
+        swap_map = [("Minnesota", "Saint Paul", 44.95 , -93.094),\
+                    ("Delaware", "Dover", 39.161921, -75.526755),\
+                    ("Kentucky", "Frankfort", 38.197274, -84.86311)]
+        tuple_swap = (swap_cities(test_map,0,2)[0] ,swap_cities(test_map,0,2)[0])
+        assert tuple_swap== (swap_map , swap_map)
+    def test_seven(self):
+        test_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
+                    ("Delaware", "Dover", 39.161921, -75.526755),\
+                    ("Minnesota", "Saint Paul", 44.95, -93.094)]
+        swap_map = [("Minnesota", "Saint Paul", 44.95 , -93.094),\
+                    ("Delaware", "Dover", 39.161921, -75.526755),\
+                    ("Kentucky", "Frankfort", 38.197274, -84.86311)]
+        assert swap_cities(test_map,0,2)[0] == swap_map
+        assert swap_cities(test_map,0,2)[0] == swap_map
 
-'''
-def test_shift_cities1():
-    road_map1 = []
-    assert shift_cities(road_map1) == []
+class Test_shift_cities:
+    def test_one(self):
+        road_map1 = []
+        assert shift_cities(road_map1) == []
 
-def test_shift_cities2():
-    road_map1 = [("Pennsylvania", "Philly",29.333,-99),\
-                 (("New York State","NYC",30.983,-98))]
-    road_map1[0] , road_map1[1] = road_map1[1] , road_map1[0]             
-    assert shift_cities(road_map1) == road_map1 
-'''
+    def test_two(self):
+        road_map1 = [("Pennsylvania", "Philly",29.333,-99),\
+                     (("New York State","NYC",30.983,-98))]
+        road_map1[0] , road_map1[1] = road_map1[1] , road_map1[0]
+        assert shift_cities(road_map1) == road_map1
+    def test_three(self):
+        test_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),
+                    ("Delaware", "Dover", 39.161921, -75.526755),
+                    ("Minnesota", "Saint Paul", 44.95, -93.094)]
+        shift_map = [("Minnesota", "Saint Paul", 44.95, -93.094),
+                     ("Kentucky", "Frankfort", 38.197274, -84.86311),
+                     ("Delaware", "Dover", 39.161921, -75.526755)]
+        assert shift_cities(test_map) == shift_map
+
+
 

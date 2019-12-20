@@ -1,4 +1,5 @@
-from math import *
+from math import sqrt
+from copy import copy
 
 
 # TODO create all-combo distances Matrix
@@ -21,6 +22,7 @@ def read_cities(file_name, rounding=100):
 
 
 def print_cities(road_map):
+    # TODO check if there is a way to print in a tabular format
     print("State\t", "City\t", "Latitude\t", "Longitude\t")
     print("-------------------------------------------")
     for i in range(len(road_map)):
@@ -44,6 +46,7 @@ def compute_total_distance(road_map):
 
 
 def swap_cities(road_map, index1, index2):
+    # TODO check how to destroy shallow copy
     """
     Take the city at location `index` in the `road_map`, and the 
     city at location `index2`, swap their positions in the `road_map`, 
@@ -56,9 +59,11 @@ def swap_cities(road_map, index1, index2):
     """
     if max(index1,index2) >= len(road_map):
         raise Exception(f"At least one of your indexes exceeds {len(road_map)-1}. What were you thinking ?")
-    road_map[index1] , road_map[index2] = road_map[index2] , road_map[index1]
+    new_road_map = copy(road_map)
+    new_road_map[index1] , new_road_map[index2] = road_map[index2] , road_map[index1]
 
-    return (road_map,compute_total_distance(road_map))
+
+    return (new_road_map,compute_total_distance( new_road_map))
 
 
 def shift_cities(road_map):
@@ -83,6 +88,7 @@ def find_best_cycle(road_map):
 def print_map(road_map):
     # TODO add parameter for matrix cost
     # TODO Use F-strings from Lecture Slide
+    # TODO Check to see if can display in circular way (or sort of S snake shaped)
     """
     Prints, in an easily understandable format, the cities and 
     their connections, along with the cost for each connection 
@@ -108,7 +114,7 @@ def main():
     # TODO check number of connection == len(map)
     # TODO prompt for input file functionality
     # print_cities(read_cities('city-data.txt',2))
-    print_map(read_cities('city-data.txt'))
+
     """ 
     Reads in, and prints out, the city data, then creates the "best"
     cycle and prints it out.
