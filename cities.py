@@ -72,6 +72,8 @@ def shift_cities(road_map):
     to the position i+1. The city at the last position moves to the position
     0. Return the new road map. 
     """
+    l = len(road_map)
+    road_map[0] , road_map[1:] = road_map [l-1] , road_map [:(l-1)]
     return road_map
 
 
