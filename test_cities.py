@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import pytest
 from cities import *
 
@@ -82,20 +84,34 @@ class Test_shift_cities:
     def test_one(self):
         road_map1 = []
         assert shift_cities(road_map1) == []
-
     def test_two(self):
         road_map1 = [("Pennsylvania", "Philly",29.333,-99),\
                      (("New York State","NYC",30.983,-98))]
         road_map1[0] , road_map1[1] = road_map1[1] , road_map1[0]
         assert shift_cities(road_map1) == road_map1
     def test_three(self):
-        test_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),
-                    ("Delaware", "Dover", 39.161921, -75.526755),
-                    ("Minnesota", "Saint Paul", 44.95, -93.094)]
+        test_map =  [("Kentucky", "Frankfort", 38.197274, -84.86311),
+                     ("Delaware", "Dover", 39.161921, -75.526755),
+                     ("Minnesota", "Saint Paul", 44.95, -93.094)]
         shift_map = [("Minnesota", "Saint Paul", 44.95, -93.094),
                      ("Kentucky", "Frankfort", 38.197274, -84.86311),
                      ("Delaware", "Dover", 39.161921, -75.526755)]
         assert shift_cities(test_map) == shift_map
+    def test_four(self):
+        # TODO destroy road_map
+        test_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),
+                     ("Delaware", "Dover", 39.161921, -75.526755),
+                     ("Minnesota", "Saint Paul", 44.95, -93.094)]
+        road_map = deepcopy(test_map)
+        for i in range(3):
+            test_map = shift_cities(test_map)
+        assert test_map == road_map
+    def test_five(self):
+        test_map = read_cities('city-data.txt')
+        road_map = deepcopy(test_map)
+        for i in range(len(test_map)):
+            test_map = shift_cities(test_map)
+        assert test_map == road_map
 
 
 

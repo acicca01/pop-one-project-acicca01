@@ -73,6 +73,7 @@ def shift_cities(road_map):
     0. Return the new road map. 
     """
     l = len(road_map)
+    assert (l > 1), f"The map you passed to shift_cities() has {l} cities. That is not enough."
     road_map[0] , road_map[1:] = road_map [l-1] , road_map [:(l-1)]
     return road_map
 
