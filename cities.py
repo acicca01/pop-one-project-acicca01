@@ -79,16 +79,14 @@ def find_best_cycle(road_map, doit=1):
     op_number = 0
 
     while not done:
-        for i in range(len(road_map)):
-            random_list1.append((floor(len(road_map) * random())))
-            random_list2.append((floor(len(road_map) * random())))
-        indexes = tuple(zip(random_list1, random_list2))
-        shift_cities(road_map)
+        random_shift = floor(len(road_map) * random())
+        for i in range(random_shift):
+            shift_cities(road_map)
+        random_swap = (floor(len(road_map) * random()), floor(len(road_map) * random()) )
         op_number += 1
-        for i in range(len(road_map)):
-            if swap_cities(road_map, *indexes[i])[1] < record:
-                record = swap_cities(road_map, *indexes[i])[1]
-                record_map = copy(swap_cities(road_map, *indexes[i]))
+        if swap_cities(road_map, *random_swap)[1] < record:
+            record = swap_cities(road_map, *random_swap)[1]
+            record_map = copy(swap_cities(road_map, *random_swap)[0])
         if op_number > doit:
             done = True
     return record_map
