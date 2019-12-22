@@ -1,4 +1,4 @@
-from math import sqrt, ceil
+from math import sqrt, floor
 from copy import copy
 from random import random
 
@@ -47,7 +47,7 @@ def compute_total_distance(road_map):
 
 
 def swap_cities(road_map, index1, index2):
-    """Creates a copy of road_map and applies the swap to the copy not the original"""
+    """Creates a copy of road_map and applies the swap to the copy and not to the original"""
     # TODO check how to destroy shallow copy
     if max(index1, index2) >= len(road_map):
         raise Exception(f"At least one of your indexes exceeds {len(road_map) - 1}. What were you thinking ?")
@@ -65,36 +65,33 @@ def shift_cities(road_map):
     return road_map
 
 
-def find_best_cycle(road_map,doit = 3):
-    """
-    Using a combination of `swap_cities` and `shift_cities`,
-    try `10000` swaps/shifts, and each time keep the best cycle found so far.
-    After `10000` swaps/shifts, return the best cycle found so far.
-    Use randomly generated indices for swapping.
-    """
+def find_best_cycle(road_map, doit=1):
+
     # builds a swapping tuple
     random_list1 = []
     random_list2 = []
-    for i in range(len(road_map)):
-        random_list1.append((ceil(len(road_map) * random())))
-        random_list2.append((ceil(len(road_map) * random())))
-    indexes = tuple(zip(random_list1,random_list2))
+    # recording best path found so far and its total distance
+    record_map = copy(road_map)
+    # shortest path found so far
+    record = compute_total_distance(record_map)
     done = False
     # initialize operation number
     op_number = 0
-    opt_map = []
+
     while not done:
-        print ("Heeeeeey")
+        for i in range(len(road_map)):
+            random_list1.append((floor(len(road_map) * random())))
+            random_list2.append((floor(len(road_map) * random())))
+        indexes = tuple(zip(random_list1, random_list2))
+        shift_cities(road_map)
         op_number += 1
-        for i in range(10000):
-            if i == 1:
-                opt_map = swap_cities(road_map, *indexes)
-            else:
-                opt_map = swap_cities(opt_map, *indexes)
-        shift_cities(opt_map)
+        for i in range(len(road_map)):
+            if swap_cities(road_map, *indexes[i])[1] < record:
+                record = swap_cities(road_map, *indexes[i])[1]
+                record_map = copy(swap_cities(road_map, *indexes[i]))
         if op_number > doit:
             done = True
-    return opt_map
+    return record_map
 
 
 
@@ -126,13 +123,14 @@ def print_map(road_map):
 def main():
     # TODO check number of connection == len(map)
     # TODO prompt for input file functionality
-    print_cities(read_cities('city-data.txt', 2))
+    #print_cities(read_cities('city-data.txt', 2))
+
 
     """ 
     Reads in, and prints out, the city data, then creates the "best"
     cycle and prints it out.
     """
-    pass
+
 
 
 if __name__ == "__main__":  # keep this in
