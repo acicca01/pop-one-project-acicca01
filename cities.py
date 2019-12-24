@@ -66,10 +66,6 @@ def shift_cities(road_map):
 
 
 def find_best_cycle(road_map, doit=1):
-
-    # builds a swapping tuple
-    random_list1 = []
-    random_list2 = []
     # recording best path found so far and its total distance
     record_map = copy(road_map)
     # shortest path found so far
@@ -79,18 +75,17 @@ def find_best_cycle(road_map, doit=1):
     op_number = 0
 
     while not done:
+        op_number += 1
         random_shift = floor(len(road_map) * random())
         for i in range(random_shift):
             shift_cities(road_map)
         random_swap = (floor(len(road_map) * random()), floor(len(road_map) * random()) )
-        op_number += 1
         if swap_cities(road_map, *random_swap)[1] < record:
             record = swap_cities(road_map, *random_swap)[1]
             record_map = copy(swap_cities(road_map, *random_swap)[0])
         if op_number > doit:
             done = True
     return record_map
-
 
 
 def print_map(road_map):
@@ -105,23 +100,28 @@ def print_map(road_map):
 
     padding = abs(len(road_map[1][1] + road_map[1][0]) - len(road_map[0][1] + road_map[0][0])) - 2
 
-    L = len(road_map)
+    l = len(road_map)
     for i in range(len(road_map)):
-        repeat = min(len(road_map[i % L][1]), len(road_map[(i + 1) % L][1]))
-        # padding = - len(road_map[(i+1)%L][1]+road_map[(i+1)%L][0]) + len(road_map[i%L][1]+road_map[i%L][0]) )
+        repeat = min(len(road_map[i % l][1]), len(road_map[(i + 1) % l][1]))
         if i == 0:
-            print(road_map[i % L][1], '(' + road_map[i % L][0] + ')', sep=' ')
+            print(road_map[i % l][1], '(' + road_map[i % l][0] + ')', sep=' ')
         print()
-        print(repeat * "↓", "cost = ", 10)
+        # define a rolling map consisting of 2 cities
+        submap = [road_map[i%l], road_map[(i + 1)%l]]
+        cost = compute_total_distance(submap)
+        print(repeat * "↓", "cost = ", round(cost, 2))
         print()
-        print(road_map[(i + 1) % L][1], '(' + road_map[(i + 1) % L][0] + ')', sep=' ')
-    print("cost = ", 1000)
+        print(road_map[(i + 1) % l][1], '(' + road_map[(i + 1) % l][0] + ')', sep=' ')
+    print()
+    print(repeat*"-")
+    print("Total cost of map = ", round(compute_total_distance(road_map), 2))
 
 
 def main():
     # TODO check number of connection == len(map)
-    # TODO prompt for input file functionality
-    #print_cities(read_cities('city-data.txt', 2))
+    input_file = input("Enter file name (including extension)")
+    print_cities(read_cities(input_file, 2))
+    print_map(read_cities('city-data.txt'))
 
 
     """ 
