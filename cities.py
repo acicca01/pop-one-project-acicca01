@@ -2,24 +2,23 @@ from math import sqrt, floor
 from copy import copy
 from random import random
 
-
-# TODO create all-combo distances Matrix
 def read_cities(file_name, rounding=100):
-    # TODO cover file not found error in read_cities()
-
-    # importing a map in a list
-    with open(file_name) as input_file:
-        amap = input_file.readlines()
-    # converting amap location elements to tuples
-    for location_index in range(len(amap)):
-        # to string
-        amap[location_index] = amap[location_index].rstrip('\n')
-        amap[location_index] = amap[location_index].split('\t')
-        # to float
-        amap[location_index][2] = round(float(amap[location_index][2]), rounding)
-        amap[location_index][3] = round(float(amap[location_index][3]), rounding)
-        amap[location_index] = tuple(amap[location_index])
-    return amap
+    try:
+        # importing a map in a list
+        with open(file_name) as input_file:
+            amap = input_file.readlines()
+        # converting amap location elements to tuples
+        for location_index in range(len(amap)):
+            # to string
+            amap[location_index] = amap[location_index].rstrip('\n')
+            amap[location_index] = amap[location_index].split('\t')
+            # to float
+            amap[location_index][2] = round(float(amap[location_index][2]), rounding)
+            amap[location_index][3] = round(float(amap[location_index][3]), rounding)
+            amap[location_index] = tuple(amap[location_index])
+        return amap
+    except Exception:
+        raise Exception(f"The input txt file {file_name} cannot be found")
 
 
 def print_cities(road_map):
@@ -30,6 +29,7 @@ def print_cities(road_map):
         for j in range(4):
             print(road_map[i][j], end="\t")
         print("", end='\n')
+
 
 
 def compute_total_distance(road_map):
@@ -97,14 +97,13 @@ def print_map(road_map):
     their connections, along with the cost for each connection 
     and the total cost.
     """
-
     padding = abs(len(road_map[1][1] + road_map[1][0]) - len(road_map[0][1] + road_map[0][0])) - 2
 
     l = len(road_map)
     for i in range(len(road_map)):
         repeat = min(len(road_map[i % l][1]), len(road_map[(i + 1) % l][1]))
         if i == 0:
-            print(road_map[i % l][1], '(' + road_map[i % l][0] + ')', sep=' ')
+            print(road_map[i%l][1], '(' + road_map[i%l][0] + ')', sep=' ')
         print()
         # define a rolling map consisting of 2 cities
         submap = [road_map[i%l], road_map[(i + 1)%l]]
@@ -121,7 +120,8 @@ def main():
     # TODO check number of connection == len(map)
     input_file = input("Enter file name (including extension)")
     print_cities(read_cities(input_file, 2))
-    print_map(read_cities('city-data.txt'))
+    #the_map = read_cities(input_file)
+    #print_map(the_map)
 
 
     """ 
