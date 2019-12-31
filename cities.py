@@ -2,6 +2,7 @@ from math import sqrt, floor
 from copy import copy
 from random import random
 
+
 def read_cities(file_name, rounding=100):
     try:
         # importing a map in a list
@@ -17,7 +18,7 @@ def read_cities(file_name, rounding=100):
             amap[location_index][3] = round(float(amap[location_index][3]), rounding)
             amap[location_index] = tuple(amap[location_index])
         return amap
-    except Exception:
+    except:
         raise Exception(f"The input txt file {file_name} cannot be found")
 
 
@@ -29,7 +30,6 @@ def print_cities(road_map):
         for j in range(4):
             print(road_map[i][j], end="\t")
         print("", end='\n')
-
 
 
 def compute_total_distance(road_map):
@@ -68,21 +68,25 @@ def shift_cities(road_map):
 def find_best_cycle(road_map, doit=1):
     # recording best path found so far and its total distance
     record_map = copy(road_map)
-    # shortest path found so far
+    # length of shortest path found so far
     record = compute_total_distance(record_map)
     done = False
     # initialize operation number
     op_number = 0
-
+    # initialize portfolio. This is a set of maps configuration the algo has found so far.
+    portfolio = set()
+    portfolio.add(tuple(record_map))
+    # If a configuration has already been used shift the current map
     while not done:
         op_number += 1
-        random_shift = floor(len(road_map) * random())
-        for i in range(random_shift):
-            shift_cities(road_map)
-        random_swap = (floor(len(road_map) * random()), floor(len(road_map) * random()) )
-        if swap_cities(road_map, *random_swap)[1] < record:
-            record = swap_cities(road_map, *random_swap)[1]
-            record_map = copy(swap_cities(road_map, *random_swap)[0])
+        random_swap = (floor(len(record_map) * random()), floor(len(record_map) * random()))
+        if swap_cities(record_map, *random_swap)[1] < record:
+            record = swap_cities(record_map, *random_swap)[1]
+            record_map = copy(swap_cities(record_map, *random_swap)[0])
+            portfolio.add(tuple(record_map))
+        elif tuple(swap_cities(record_map, *random_swap)[0]) in portfolio:
+            shift_cities(record_map)
+
         if op_number > doit:
             done = True
     return record_map
@@ -92,43 +96,38 @@ def print_map(road_map):
     # TODO add parameter for matrix cost
     # TODO Use F-strings from Lecture Slide
     # TODO Check to see if can display in circular way (or sort of S snake shaped)
-    """
-    Prints, in an easily understandable format, the cities and 
-    their connections, along with the cost for each connection 
-    and the total cost.
-    """
     padding = abs(len(road_map[1][1] + road_map[1][0]) - len(road_map[0][1] + road_map[0][0])) - 2
 
     l = len(road_map)
     for i in range(len(road_map)):
         repeat = min(len(road_map[i % l][1]), len(road_map[(i + 1) % l][1]))
         if i == 0:
-            print(road_map[i%l][1], '(' + road_map[i%l][0] + ')', sep=' ')
+            print(road_map[i % l][1], '(' + road_map[i % l][0] + ')', sep=' ')
         print()
         # define a rolling map consisting of 2 cities
-        submap = [road_map[i%l], road_map[(i + 1)%l]]
+        submap = [road_map[i % l], road_map[(i + 1) % l]]
         cost = compute_total_distance(submap)
         print(repeat * "↓", "cost = ", round(cost, 2))
         print()
         print(road_map[(i + 1) % l][1], '(' + road_map[(i + 1) % l][0] + ')', sep=' ')
     print()
-    print(repeat*"-")
+    print(repeat * "-")
     print("Total cost of map = ", round(compute_total_distance(road_map), 2))
 
 
 def main():
     # TODO check number of connection == len(map)
-    input_file = input("Enter file name (including extension)")
-    print_cities(read_cities(input_file, 2))
-    #the_map = read_cities(input_file)
-    #print_map(the_map)
-
+    # input_file = input("Enter file name (including extension)")
+    hell = read_cities("city-data.txt")
+    hell = [0, 2, 1]
+    # best = find_best_cycle(amap, doit=100)
+    # the_map = read_cities(input_file)
+    # print_map(the_map)
 
     """ 
     Reads in, and prints out, the city data, then creates the "best"
     cycle and prints it out.
     """
-
 
 
 if __name__ == "__main__":  # keep this in
