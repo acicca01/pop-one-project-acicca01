@@ -18,8 +18,8 @@ def read_cities(file_name, rounding=100):
             amap[location_index][3] = round(float(amap[location_index][3]), rounding)
             amap[location_index] = tuple(amap[location_index])
         return amap
-    except:
-        raise Exception(f"The input txt file {file_name} cannot be found")
+    except OSError:
+        print(f"Input file {file_name} not found")
 
 
 def print_cities(road_map):
@@ -29,7 +29,7 @@ def print_cities(road_map):
     for i in range(len(road_map)):
         for j in range(4):
             print(road_map[i][j], end="\t")
-        print("", end='\n')
+        print("", end='\n'
 
 
 def compute_total_distance(road_map):
@@ -65,7 +65,7 @@ def shift_cities(road_map):
     return road_map
 
 
-def find_best_cycle(road_map, doit=1):
+def find_best_cycle(road_map, doit=10000):
     # recording best path found so far and its total distance
     record_map = copy(road_map)
     # length of shortest path found so far
@@ -86,9 +86,9 @@ def find_best_cycle(road_map, doit=1):
             portfolio.add(tuple(record_map))
         elif tuple(swap_cities(record_map, *random_swap)[0]) in portfolio:
             shift_cities(record_map)
-
         if op_number > doit:
             done = True
+
     return record_map
 
 
@@ -117,8 +117,8 @@ def print_map(road_map):
 
 def main():
     # TODO check number of connection == len(map)
-    # input_file = input("Enter file name (including extension)")
-    hell = read_cities("city-data.txt")
+    input_file = input("Enter file name for map")
+    hell = read_cities("input_file")
     hell = [0, 2, 1]
     # best = find_best_cycle(amap, doit=100)
     # the_map = read_cities(input_file)
