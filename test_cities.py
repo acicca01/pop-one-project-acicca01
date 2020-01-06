@@ -4,7 +4,6 @@ import pytest
 from cities import *
 
 class Test_compute_total_distance:
-    # TODO 2 cities on the list located in same place
     def test_one(self):
         road_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
                     ("Delaware", "Dover", 39.161921, -75.526755),\
@@ -98,7 +97,6 @@ class Test_shift_cities:
                      ("Delaware", "Dover", 39.161921, -75.526755)]
         assert shift_cities(test_map) == shift_map
     def test_four(self):
-        # TODO destroy road_map
         test_map = [("Kentucky", "Frankfort", 38.197274, -84.86311),
                      ("Delaware", "Dover", 39.161921, -75.526755),
                      ("Minnesota", "Saint Paul", 44.95, -93.094)]
