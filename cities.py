@@ -102,7 +102,8 @@ def print_map(road_map):
         if i == 0:
             print(road_map[i % l][1], '(' + road_map[i % l][0] + ')', sep=' ')
         print()
-        # define a rolling map consisting of 2 cities
+        # Define a rolling map consisting of 2 cities.
+        # This way the distance can be computed between the last city and the first.
         submap = [road_map[i % l], road_map[(i + 1) % l]]
         cost = compute_total_distance(submap)
         print(repeat * "↓", "cost = ", round(cost, 2))
@@ -216,7 +217,8 @@ def main():
     print ()
     visualise(best_map)
     print ()
-    print("To check the grid open visualise.txt (Recommend using Pycharm. IDLE might work as well.)")
+    print("To check the grid open visualise.txt in your working directory")
+    print("To do that it's highly recommended to use Pycharm (although IDLE works just fine)")
 
 
 
