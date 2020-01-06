@@ -1,6 +1,8 @@
-from math import sqrt, floor
 from copy import copy
+from math import sqrt, floor
 from random import random
+import sys
+import textwrap
 
 
 def read_cities(file_name, rounding=100):
@@ -127,67 +129,74 @@ def visualise(road_map):
     # Load dictionary map_dic with key (latitude, longitude) and value position on map
     # Create ranges for latitude / longitude and load them into tuple
     for i in range(len(road_map)):
-        map_dic[(int(road_map[i][2]), int(road_map[i][3]))] = i
-        latitudes.append(int(road_map[i][2]))
-        longitudes.append(int(road_map[i][3]))
+        # Using discrete space representation implies we can have collisions
+        # If coordinates already busy introduce a random fuzz factor 'fuzz' with 1<=fuzz<2 in else block
+        if (round(road_map[i][2]), round(road_map[i][3])) not in map_dic:
+            map_dic[(round(road_map[i][2]), round(road_map[i][3]))] = i
+            latitudes.append(round(road_map[i][2]))
+            longitudes.append(round(road_map[i][3]))
+        else:
+            map_dic[(round(road_map[i][2]+random()+1), round(road_map[i][3]+random()+1))] = i
+            latitudes.append(round(road_map[i][2]+random()+1))
+            longitudes.append(round(road_map[i][3]+random()+1))
         # load latitude-longitude ranges into tuple
         lat_range = (min(latitudes), max(latitudes) + 1)
         long_range = (min(longitudes), max(longitudes) + 1)
-
-    # Create a reference longitudes row. This will appear on the top of the grid.
-    print('      ', end='')
-    for i in range(*long_range):
-        if len(str(i)) == 4:
-            print(i, end='  ')
-        elif len(str(i)) == 3:
-            print(i, end='   ')
-        elif len(str(i)) == 2:
-            print(i, end='    ')
-        elif len(str(i)) == 1:
-            print(i, end='     ')
-    print()
-
-    # Building reference latitude column. This will appear on the left of the grid.
-    # Building a 'Grid' based on the retrieved values for position from the dictionary map_dic. (j,i) used as key.
-    for j in range(*lat_range):
-        # Some basic alignment work
-        if len(str(j)) == 3:
-            print('   ', end='')
-        if len(str(j)) == 2:
-            print('  ', end='')
+    with open('visualise.txt', 'w') as outfile:
+        # Create a reference longitudes row. This will appear on the top of the grid.
+        print('      ', end='', file = outfile )
         for i in range(*long_range):
-            print('  ', ' ', sep='|', end='  ')
-        print()
-        for i in range(*long_range):
-            # Create latitude column
-            if i == long_range[0]:
-                print(j, end='   ')
-            # If a city appear at a given (latitude,longitude) print its position on the grid
-            if (j, i) in map_dic:
-                tmp = str(map_dic[(j, i)] + 1)
-                if len(tmp) == 1:
-                    print('  ', ' ', sep=tmp, end='  ')
-                if len(tmp) == 2:
-                    print(' ', ' ', sep=tmp, end='  ')
-                if len(tmp) == 3:
-                    print('', ' ', sep=tmp, end='  ')
-                if len(tmp) == 4:
-                    print('', '', sep=tmp, end='  ')
-            # Print a '-' if no city in the map with the given (j , i) coordinates
-            else:
-                print(f"{'-':^6}", end='')
-        print()
+            if len(str(i)) == 4:
+                print(i, end='  ' , file = outfile)
+            elif len(str(i)) == 3:
+                print(i, end='   ', file = outfile)
+            elif len(str(i)) == 2:
+                print(i, end='    ', file = outfile)
+            elif len(str(i)) == 1:
+                print(i, end='     ', file = outfile)
+        print(file = outfile)
+
+        # Building reference latitude column. This will appear on the left of the grid.
+        # Building a 'Grid' based on the retrieved values for position from the dictionary map_dic. (j,i) used as key.
+        for j in range(*lat_range):
+            # Some basic alignment work
+            if len(str(j)) == 3:
+                print('   ', end='', file = outfile)
+            if len(str(j)) == 2:
+                print('  ', end='', file = outfile)
+            for i in range(*long_range):
+                print('  ', ' ', sep='|', end='  ', file = outfile)
+            print( file = outfile)
+            for i in range(*long_range):
+                # Create latitude column
+                if i == long_range[0]:
+                    print(j, end='   ', file = outfile)
+                # If a city appear at a given (latitude,longitude) print its position on the grid
+                if (j, i) in map_dic:
+                    tmp = str(map_dic[(j, i)] + 1)
+                    if len(tmp) == 1:
+                        print('  ', ' ', sep=tmp, end='  ', file = outfile)
+                    if len(tmp) == 2:
+                        print(' ', ' ', sep=tmp, end='  ', file = outfile)
+                    if len(tmp) == 3:
+                        print('', ' ', sep=tmp, end='  ', file = outfile)
+                    if len(tmp) == 4:
+                        print('', '', sep=tmp, end='  ', file = outfile)
+                # Print a '-' if no city in the map with the given (j , i) coordinates
+                else:
+                    print(f"{'-':^6}", end='', file = outfile)
+            print(file=outfile)
+    return map_dic
 
 def main():
-    # TODO check number of connection == len(map)
-    input_file = input("Enter file name for map")
+    input_file = input("Enter file name for map:> ")
     amap = read_cities(input_file)
     print_cities(amap)
+    print()
     best_map = find_best_cycle(amap)
     print_map(best_map)
+    print ()
     visualise(best_map)
-    # the_map = read_cities(input_file)
-    # print_map(the_map)
 
     """ 
     Reads in, and prints out, the city data, then creates the "best"
